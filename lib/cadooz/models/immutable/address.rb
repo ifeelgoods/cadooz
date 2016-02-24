@@ -6,19 +6,19 @@ class Cadooz::Immutable::Address
               :street_add_on, :zip_code
 
   def initialize(open_struct)
-    @city = open_struct&.city
-    @company =open_struct&.company
-    @country = open_struct&.country
-    @department = open_struct&.department
-    @email = open_struct&.email
-    @firstname = open_struct&.firstname
-    @lastname = open_struct&.lastname
-    @phone = open_struct&.phone
-    @salutation = open_struct&.salutation
-    @state = open_struct&.state
-    @street = open_struct&.street
-    @street_add_on = open_struct&.street_add_on
-    @zip_code = open_struct&.zipcode
+    @city = open_struct.try!(:city)
+    @company =open_struct.try!(:company)
+    @country = open_struct.try!(:country)
+    @department = open_struct.try!(:department)
+    @email = open_struct.try!(:email)
+    @firstname = open_struct.try!(:firstname)
+    @lastname = open_struct.try!(:lastname)
+    @phone = open_struct.try!(:phone)
+    @salutation = open_struct.try!(:salutation)
+    @state = open_struct.try!(:state)
+    @street = open_struct.try!(:street)
+    @street_add_on = open_struct.try!(:street_add_on)
+    @zip_code = open_struct.try!(:zipcode)
 
     self.freeze
   end
