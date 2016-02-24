@@ -2,16 +2,25 @@ PATH
   remote: .
   specs:
     cadooz (1.0.0)
+      activesupport (~> 4.2.4)
+      money (~> 6.6.1)
       savon (~> 2.11.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
+    activesupport (4.2.4)
+      i18n (~> 0.7)
+      json (~> 1.7, >= 1.7.7)
+      minitest (~> 5.1)
+      thread_safe (~> 0.3, >= 0.3.4)
+      tzinfo (~> 1.1)
     addressable (2.4.0)
     akami (1.3.1)
       gyoku (>= 0.4.0)
       nokogiri
-    builder (3.0.4)
+    builder (3.2.2)
+    coderay (1.1.0)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     diff-lcs (1.2.5)
@@ -20,11 +29,21 @@ GEM
     hashdiff (0.3.0)
     httpi (2.4.1)
       rack
+    i18n (0.7.0)
+    json (1.8.3)
+    method_source (0.8.2)
     mini_portile2 (2.0.0)
+    minitest (5.8.1)
+    money (6.6.1)
+      i18n (>= 0.6.4, <= 0.7.0)
     nokogiri (1.6.7.1)
       mini_portile2 (~> 2.0.0.rc2)
     nori (2.6.0)
-    rack (1.4.7)
+    pry (0.9.12.6)
+      coderay (~> 1.0)
+      method_source (~> 0.8)
+      slop (~> 3.4)
+    rack (1.6.4)
     rspec (3.4.0)
       rspec-core (~> 3.4.0)
       rspec-expectations (~> 3.4.0)
@@ -47,6 +66,10 @@ GEM
       nokogiri (>= 1.4.0)
       nori (~> 2.4)
       wasabi (~> 3.4)
+    slop (3.6.0)
+    thread_safe (0.3.5)
+    tzinfo (1.2.2)
+      thread_safe (~> 0.1)
     wasabi (3.5.0)
       httpi (~> 2.0)
       nokogiri (>= 1.4.2)
@@ -60,6 +83,7 @@ PLATFORMS
 
 DEPENDENCIES
   cadooz!
+  pry (~> 0.9.12.6)
   rspec (~> 3.4.0)
   webmock (~> 1.24.0)
 

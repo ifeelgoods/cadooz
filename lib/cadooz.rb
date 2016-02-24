@@ -3,6 +3,7 @@ require 'money'
 require 'ostruct'
 require 'pry'
 require 'savon'
+require 'active_support/all'
 
 module Cadooz
   class Configuration
