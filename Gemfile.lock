@@ -1,15 +1,15 @@
 PATH
   remote: .
   specs:
-    cadooz (1.0.1)
-      activesupport (~> 4.2.4)
-      money (~> 6.6.1)
-      savon (~> 2.11.0)
+    cadooz (1.0.2)
+      activesupport (>= 4.2.4)
+      money (>= 6.6.1)
+      savon (>= 2.11.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (4.2.4)
+    activesupport (4.2.5.1)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
@@ -33,10 +33,10 @@ GEM
     json (1.8.3)
     method_source (0.8.2)
     mini_portile2 (2.0.0)
-    minitest (5.8.1)
+    minitest (5.8.4)
     money (6.6.1)
       i18n (>= 0.6.4, <= 0.7.0)
-    nokogiri (1.6.7.1)
+    nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     nori (2.6.0)
     pry (0.9.12.6)
@@ -83,9 +83,9 @@ PLATFORMS
 
 DEPENDENCIES
   cadooz!
-  pry (~> 0.9.12.6)
-  rspec (~> 3.4.0)
-  webmock (~> 1.24.0)
+  pry (>= 0.9.12.6)
+  rspec (>= 3.4.0)
+  webmock (>= 1.24.0)
 
 BUNDLED WITH
    1.11.2
