@@ -1,27 +1,29 @@
 require 'json'
 require 'money'
 require 'ostruct'
-require 'pry'
 require 'savon'
+require 'active_support/all'
 
 module Cadooz
   class Configuration
     attr_accessor :username, :password, :wsdl, :generation_profile
 
-    WSDL = 'https://webservices.cadooz.com/services/businessorder/1.5.2/BusinessOrderService/BusinessOrder?wsdl'
-    TEST_USERNAME = 'cadooz'
-    TEST_PASSWORD = 'Cadooz2015'
+    TESTING_CONFIGURATION = YAML.load_file(File.join(File.dirname(__FILE__),'../config/sandbox.yml'))
 
-    def initialize(username, password, generation_profile)
-      self.username = username || TEST_USERNAME
-      self.password = password || TEST_PASSWORD
-      self.wsdl = WSDL
-      self.generation_profile = generation_profile
+    def initialize(username:, password:, wsdl_url:, generation_profile:)
+      self.username = username || TESTING_CONFIGURATION['user_name']
+      self.password = password || TESTING_CONFIGURATION['password']
+      self.wsdl = wsdl_url || TESTING_CONFIGURATION['wsdl']
+      self.generation_profile = generation_profile || TESTING_CONFIGURATION['generation_profile']
     end
   end
 
   def self.configuration
-    @configuration ||= Configuration.new(nil, nil, nil)
+    @configuration ||= Configuration.new(
+      username: nil,
+      password: nil,
+      wsdl_url: nil,
+      generation_profile: nil)
   end
 
   def self.configure

@@ -1,0 +1,4 @@
+wsdl: 'https://webservices.cadooztest.com/services/businessorder/1.5.2/BusinessOrderService/BusinessOrder?wsdl'
+user_name: cadooz
+password: Cadooz2015
+generation_profile: 'XML Schnittstelle (Test)'
