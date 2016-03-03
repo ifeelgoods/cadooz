@@ -1,6 +1,5 @@
 class Cadooz::BusinessOrderService
   DEFAULT_TIMEOUT = 10
-  DEFAULT_GENERATION_PROFILE = 'XML Schnittstelle (Test)'
 
   def initialize(open_timeout = DEFAULT_TIMEOUT, read_timeout = DEFAULT_TIMEOUT)
     @client = Savon.client(
@@ -92,10 +91,10 @@ class Cadooz::BusinessOrderService
   # generationProfile - a name of a generation profile defined by cadooz
   # Returns:
   # A list of generation profile products that can be used for an order inside createOrder(Order)
-  def get_available_products(generation_profile = DEFAULT_GENERATION_PROFILE)
+  def get_available_products
     response_class = Cadooz::Immutable::GenerationProfileProduct
 
-    deserialize(@call.(__callee__, {generation_profile: generation_profile }), response_class, __callee__)
+    deserialize(@call.(__callee__, {generation_profile: Cadooz.configuration.generation_profile }), response_class, __callee__)
   end
 
   # Returns a VoucherInformation Object. The status of the response can be determined using the method VoucherInformation.getResponseState().
@@ -108,10 +107,10 @@ class Cadooz::BusinessOrderService
   # orderNumber - The number of the order.
   # Returns:
   # A VoucherInformation object. Never null.
-  def get_vouchers_for_order(generation_profile_name = DEFAULT_GENERATION_PROFILE, order_number)
+  def get_vouchers_for_order(order_number)
     response_class = Cadooz::Immutable::Voucher
 
-    deserialize(@call.(__callee__, {generation_profile_name: generation_profile_name, order_number: order_number }), response_class, __callee__)
+    deserialize(@call.(__callee__, {generation_profile_name: Cadooz.configuration.generation_profile, order_number: order_number }), response_class, __callee__)
   end
 
   private
