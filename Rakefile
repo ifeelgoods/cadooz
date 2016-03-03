@@ -1,4 +1,8 @@
 #!/usr/bin/env rake
+
+require 'bundler/gem_tasks'
+require 'rspec/core/rake_task'
+
 begin
   require 'bundler/setup'
 rescue LoadError
@@ -10,6 +14,11 @@ rescue LoadError
   require 'rdoc/rdoc'
   require 'rake/rdoctask'
   RDoc::Task = Rake::RDocTask
+end
+
+task :default => :spec
+
+RSpec::Core::RakeTask.new(:spec) do |task|
 end
 
 RDoc::Task.new(:rdoc) do |rdoc|

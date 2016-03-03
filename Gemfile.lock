@@ -44,6 +44,7 @@ GEM
       method_source (~> 0.8)
       slop (~> 3.4)
     rack (1.6.4)
+    rake (10.5.0)
     rspec (3.4.0)
       rspec-core (~> 3.4.0)
       rspec-expectations (~> 3.4.0)
@@ -84,6 +85,7 @@ PLATFORMS
 DEPENDENCIES
   cadooz!
   pry (>= 0.9.12.6)
+  rake
   rspec (>= 3.4.0)
   webmock (>= 1.24.0)
 
