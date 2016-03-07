@@ -9,6 +9,7 @@ class Cadooz::BusinessOrderService
           Cadooz.configuration.password
       ],
       headers: { 'SOAPAction' => '' },
+      raise_errors: false,
       open_timeout: open_timeout,
       read_timeout: read_timeout
     )
@@ -116,21 +117,27 @@ class Cadooz::BusinessOrderService
   private
 
   def deserialize(response, response_class, operation)
-    key = (operation.to_s + '_response').to_sym
-    body = response.body[key][:return]
+    if response.soap_fault?
 
-    if body.blank?
-      object = OpenStruct.new
+      http_error_code = response.http.code
+      name = response.body[:fault][:faultcode]
+      message = response.body[:fault][:faultstring]
+      Cadooz::Error.new(code: http_error_code, name: name, message: message)
     else
-      object = JSON.parse(body.to_json, object_class: OpenStruct)
-    end
+      key = (operation.to_s + '_response').to_sym
+      body = response.body[key][:return]
 
-    if object.class == Array
-      object.each_with_object([]) { |o, arr| arr << Object::const_get(response_class.to_s).new(o) }
-    elsif object.class == OpenStruct
-      Object::const_get(response_class.to_s).new(object)
-    else
-      # TODO handle exception
+     if body.blank?
+        object = OpenStruct.new
+      else
+        object = JSON.parse(body.to_json, object_class: OpenStruct)
+      end
+
+      if object.class == Array
+        object.each_with_object([]) { |o, arr| arr << Object::const_get(response_class.to_s).new(o) }
+      else object.class == OpenStruct
+        Object::const_get(response_class.to_s).new(object)
+      end
     end
   end
 end
