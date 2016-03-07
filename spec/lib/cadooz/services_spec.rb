@@ -128,8 +128,13 @@ describe Cadooz::BusinessOrderService do
       end
 
       context "invalid" do
+        let(:raw_response) { get_raw_response(:get_changed_orders, true) }
+
         it "should raise an exception" do
-          # Revisit with VCR recording of failed request
+          message = { garbage: 'trash' }
+
+          savon.expects(:get_changed_orders).with(message: message).returns(raw_response)
+          expect { service.get_changed_orders(message).serialize }.to raise_error(Savon::ExpectationError)
         end
       end
     end
@@ -161,8 +166,9 @@ describe Cadooz::BusinessOrderService do
     end
 
     describe "get available catalogs" do
+      let(:raw_response) { get_raw_response(:get_available_catalogs, true) }
+
       context "succeeds" do
-        let(:raw_response) { get_raw_response(:get_available_catalogs, true) }
         let(:response) { get_serialized_response_object(:get_available_catalogs, true) }
 
         it "should get the available catalogs" do
@@ -175,7 +181,10 @@ describe Cadooz::BusinessOrderService do
 
       context "invalid" do
         it "should raise an exception" do
-          # Revisit with VCR recording of failed request
+          message = { garbage: 'trash' }
+
+          savon.expects(:get_available_catalogs).with(message: message).returns(raw_response)
+          expect { service.get_available_catalogs(message).serialize }.to raise_error(Savon::ExpectationError)
         end
       end
     end
@@ -188,12 +197,6 @@ describe Cadooz::BusinessOrderService do
         it "should get available categories" do
           savon.expects(:get_available_categories).returns(raw_response)
           expect(service.get_available_categories.map(&:serialize)).to eq(response)
-        end
-      end
-
-      context "invalid" do
-        it "should raise an exception" do
-          # Revisit with VCR recording of failed request
         end
       end
     end
@@ -210,17 +213,12 @@ describe Cadooz::BusinessOrderService do
           expect(service.get_available_products.map(&:serialize)).to eq(response)
         end
       end
-
-      context "invalid" do
-        it "should raise an exception" do
-          # Revisit with VCR recording of failed request
-        end
-      end
     end
 
     describe "get vouchers for order" do
+      let(:raw_response) { get_raw_response(:get_vouchers_for_order, true) }
+
       context "succeeds" do
-        let(:raw_response) { get_raw_response(:get_vouchers_for_order, true) }
         let(:response) { get_serialized_response_object(:get_vouchers_for_order, true) }
 
         it "should get vouchers for an order number" do
@@ -232,7 +230,12 @@ describe Cadooz::BusinessOrderService do
       end
 
       context "invalid" do
-        # Revisit with VCR recording of failed request
+        it "should raise an exception" do
+          message = { garbage: 'trash' }
+
+          savon.expects(:get_vouchers_for_order).with(message: message).returns(raw_response)
+          expect { service.get_vouchers_for_order(message).serialize }.to raise_error(Savon::ExpectationError)
+        end
       end
     end
   end
