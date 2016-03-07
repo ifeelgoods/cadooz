@@ -35,6 +35,7 @@ module Cadooz
 end
 
 require_relative 'mixins'
+require_relative 'cadooz/models/error'
 require_relative 'cadooz/models/immutable/address'
 require_relative 'cadooz/models/immutable/attributes'
 require_relative 'cadooz/models/immutable/catalog'
