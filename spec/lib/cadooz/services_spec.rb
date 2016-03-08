@@ -118,12 +118,12 @@ describe Cadooz::BusinessOrderService do
         let(:raw_response) { get_raw_response(:get_changed_orders, false) }
         let(:response) { get_serialized_response_object(:get_changed_orders, false) }
 
-        it "should return an empty response" do
+        it "should return an error object" do
           # Future time
           message = { last_check_time: Date.parse('01-03-2016') }
 
           savon.expects(:get_changed_orders).with(message: message).returns(raw_response)
-          expect(service.get_changed_orders(Date.parse('01-03-2016')).serialize).to eq(response)
+          expect(service.get_changed_orders(Date.parse('01-03-2016')).class).to eq Cadooz::Error
         end
       end
 
@@ -156,11 +156,11 @@ describe Cadooz::BusinessOrderService do
         let(:raw_response) { get_raw_response(:get_order, false) }
         let (:response) { get_serialized_response_object(:get_order, false) }
 
-        it "should return an empty response" do
+        it "should return a response with a 404 error" do
           message = { order_number: '9' }
 
           savon.expects(:get_order).with(message: message).returns(raw_response)
-          expect(service.get_order('9').serialize).to eq(response)
+          expect(service.get_order('9').class).to eq Cadooz::Error
         end
       end
     end
