@@ -128,16 +128,17 @@ class Cadooz::BusinessOrderService
       body = response.body[key][:return]
 
      if body.blank?
-        object = OpenStruct.new
+        Cadooz::Error.new(code: 404, name: response_class.to_s, message: 'Not found')
       else
         object = JSON.parse(body.to_json, object_class: OpenStruct)
+
+        if object.class == Array
+          object.each_with_object([]) { |o, arr| arr << Object::const_get(response_class.to_s).new(o) }
+        else object.class == OpenStruct
+          Object::const_get(response_class.to_s).new(object)
+        end
       end
 
-      if object.class == Array
-        object.each_with_object([]) { |o, arr| arr << Object::const_get(response_class.to_s).new(o) }
-      else object.class == OpenStruct
-        Object::const_get(response_class.to_s).new(object)
-      end
     end
   end
 end
