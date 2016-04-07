@@ -109,7 +109,7 @@ class Cadooz::BusinessOrderService
   # Returns:
   # A VoucherInformation object. Never null.
   def get_vouchers_for_order(order_number)
-    response_class = Cadooz::Immutable::Voucher
+    response_class = Cadooz::Immutable::VoucherInformation
 
     deserialize(@call.(__callee__, {generation_profile_name: Cadooz.configuration.generation_profile, order_number: order_number }), response_class, __callee__)
   end
@@ -117,28 +117,55 @@ class Cadooz::BusinessOrderService
   private
 
   def deserialize(response, response_class, operation)
-    if response.soap_fault?
+    response_wrapper = Cadooz::Immutable::Response
 
+    if response.soap_fault?
       http_error_code = response.http.code
       name = response.body[:fault][:faultcode]
       message = response.body[:fault][:faultstring]
-      Cadooz::Error.new(code: http_error_code, name: name, message: message)
+      response_object = Cadooz::Error.new(code: http_error_code, name: name, message: message)
     else
       key = (operation.to_s + '_response').to_sym
       body = response.body[key][:return]
 
-     if body.blank?
-        Cadooz::Error.new(code: 404, name: response_class.to_s, message: 'Not found')
+      if body.blank?
+        object = Cadooz::Error.new(code: 404, name: response_class.to_s, message: 'Not found')
       else
         object = JSON.parse(body.to_json, object_class: OpenStruct)
-
-        if object.class == Array
-          object.each_with_object([]) { |o, arr| arr << Object::const_get(response_class.to_s).new(o) }
-        else object.class == OpenStruct
-          Object::const_get(response_class.to_s).new(object)
-        end
       end
-
     end
+
+    response_object = nil
+
+    if object.class == Array
+      wrapper = response_wrapper.new(
+          object.each_with_object([]) { |o, arr| arr << Object::const_get(response_class.to_s).new(o) },
+          response.xml
+      )
+      response_object = wrapper unless nil_check(wrapper.object.first)
+    elsif object.class == OpenStruct
+      wrapper = response_wrapper.new(
+        Object::const_get(response_class.to_s).new(object),
+        response.xml
+      )
+      response_object = wrapper unless nil_check(wrapper.object)
+    end
+
+    response_object
+  end
+
+  def nil_check(object)
+    object.instance_variables.each do |v|
+      value = object.instance_variable_get(v)
+      if value.class.to_s.include?('Cadooz::Immutable')
+        nil_check(value)
+      elsif value.class == Money
+        return false unless value.cents == 0
+      else
+        return false unless value.nil?
+      end
+    end
+
+    true
   end
 end

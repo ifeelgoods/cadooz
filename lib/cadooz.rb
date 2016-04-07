@@ -6,15 +6,18 @@ require 'active_support/all'
 
 module Cadooz
   class Configuration
-    attr_accessor :username, :password, :wsdl, :generation_profile
+    attr_accessor :username, :password, :wsdl, :generation_profile, :program_id, :payment_username, :payment_password
 
     TESTING_CONFIGURATION = YAML.load_file(File.join(File.dirname(__FILE__),'../config/sandbox.yml'))
 
-    def initialize(username:, password:, wsdl_url:, generation_profile:)
+    def initialize(username:, password:, wsdl_url:, generation_profile:, program_id:, payment_username:, payment_password:)
       self.username = username || TESTING_CONFIGURATION['user_name']
       self.password = password || TESTING_CONFIGURATION['password']
       self.wsdl = wsdl_url || TESTING_CONFIGURATION['wsdl']
       self.generation_profile = generation_profile || TESTING_CONFIGURATION['generation_profile']
+      self.program_id = program_id
+      self.payment_username = payment_username
+      self.payment_password = payment_password
     end
   end
 
@@ -23,7 +26,10 @@ module Cadooz
       username: nil,
       password: nil,
       wsdl_url: nil,
-      generation_profile: nil)
+      generation_profile: nil,
+      program_id: nil, 
+      payment_username: nil, 
+      payment_password: nil)
   end
 
   def self.configure
@@ -49,10 +55,13 @@ require_relative 'cadooz/models/immutable/order_position'
 require_relative 'cadooz/models/immutable/order_status'
 require_relative 'cadooz/models/immutable/payment'
 require_relative 'cadooz/models/immutable/product_category'
+require_relative 'cadooz/models/immutable/response'
 require_relative 'cadooz/models/immutable/voucher'
+require_relative 'cadooz/models/immutable/voucher_information'
 require_relative 'cadooz/models/mutable/address'
 require_relative 'cadooz/models/mutable/greeting_card'
 require_relative 'cadooz/models/mutable/invoice_information'
 require_relative 'cadooz/models/mutable/order'
 require_relative 'cadooz/models/mutable/order_position'
+require_relative 'cadooz/models/mutable/payment'
 require_relative 'cadooz/services/business_order_service'
