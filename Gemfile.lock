@@ -1,10 +1,11 @@
 PATH
   remote: .
   specs:
-    cadooz (1.3.0)
+    cadooz (2.2.1)
       activesupport (>= 4.2.4)
       money (>= 6.6.1)
-      savon (~> 2.11.0)
+      savon (>= 2.11.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
