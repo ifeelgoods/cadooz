@@ -98,6 +98,16 @@ class Cadooz::BusinessOrderService
     deserialize(@call.(__callee__, {generation_profile: Cadooz.configuration.generation_profile }), response_class, __callee__)
   end
 
+  # Product getProduct(java.lang.String productNumber)
+  # Returns all known data about a product identified by the cadooz product number. Be aware that not all information that we received (invoice informations etc) can be returned. Only the "necessary" informations like what is products are stored on the product number.
+  # Returns:
+  # The product object or null if no product was found.
+  def get_product(product_number)
+    response_class = Cadooz::Immutable::CatalogProduct
+
+    deserialize(@call.(__callee__, {product_number: product_number}), response_class, __callee__)
+  end
+
   # Returns a VoucherInformation Object. The status of the response can be determined using the method VoucherInformation.getResponseState().
   # If one of the passed arguments is empty the status will be VoucherInformationState.INCORRECT_USAGE.
   # If passed name of the generation profile is unknown the status will be VoucherInformationState.UNKNOWN_GENERAION_PROFILE.
