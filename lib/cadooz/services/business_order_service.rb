@@ -123,7 +123,7 @@ class Cadooz::BusinessOrderService
       http_error_code = response.http.code
       name = response.body[:fault][:faultcode]
       message = response.body[:fault][:faultstring]
-      response_object = Cadooz::Error.new(code: http_error_code, name: name, message: message)
+      object = Cadooz::Error.new(code: http_error_code, name: name, message: message)
     else
       key = (operation.to_s + '_response').to_sym
       body = response.body[key][:return]
@@ -146,6 +146,11 @@ class Cadooz::BusinessOrderService
     elsif object.class == OpenStruct
       wrapper = response_wrapper.new(
         Object::const_get(response_class.to_s).new(object),
+        response.xml
+      )
+      response_object = wrapper unless nil_check(wrapper.object)
+    elsif object.class == Cadooz::Error
+      wrapper = response_wrapper.new(object,
         response.xml
       )
       response_object = wrapper unless nil_check(wrapper.object)
