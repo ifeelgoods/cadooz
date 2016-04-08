@@ -14,11 +14,12 @@ Gem::Specification.new do |s|
 
   s.files = Dir['{app,config,db,lib}/**/*'] + ['LICENSE', 'Rakefile', 'README.md']
 
-  s.add_dependency 'savon', '>= 2.11.0'
-  s.add_dependency 'money', '>= 6.6.1'
-  s.add_dependency 'activesupport', '>= 4.2.4'
-  s.add_development_dependency 'rspec', '>= 3.4.0'
-  s.add_development_dependency 'pry', '>= 0.9.12.6'
-  s.add_development_dependency 'webmock', '>= 1.24.0'
+  s.add_dependency 'savon', '~> 2.11.0'
+  s.add_dependency 'money', '~> 6.7.0'
+  s.add_dependency 'google_currency', '~> 3.3.0'
+  s.add_dependency 'activesupport', '~> 4.2.4'
+  s.add_development_dependency 'rspec', '~> 3.4.0'
+  s.add_development_dependency 'pry', '~> 0.9.12.6'
+  s.add_development_dependency 'webmock', '~> 1.24.0'
   s.add_development_dependency 'rake'
 end
