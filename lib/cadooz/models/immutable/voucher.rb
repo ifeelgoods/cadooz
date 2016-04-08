@@ -2,7 +2,7 @@ class Cadooz::Immutable::Voucher
   include Mixins
 
   attr_reader :address, :code, :ecard_link, :evoucher_link,
-              :pin, :product_name, :product_number,
+              :pin, :product_name, :product_number, :currency,
               :product_variation_number, :serial_number, :value
 
   def initialize(open_struct)
