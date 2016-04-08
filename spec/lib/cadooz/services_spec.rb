@@ -216,6 +216,20 @@ describe Cadooz::BusinessOrderService do
       end
     end
 
+    describe "get product informations" do
+      context "succeeds" do
+        let(:raw_response) { get_raw_response(:get_product, true) }
+        let(:response) { get_serialized_response_object(:get_product, true) }
+
+        it "should get available products" do
+          message = { product_number: '8099' }
+
+          savon.expects(:get_product).with(message: message).returns(raw_response)
+          expect(service.get_product('8099').object.serialize).to eq(response)
+        end
+      end
+    end
+
     describe "get vouchers for order" do
       let(:raw_response) { get_raw_response(:get_vouchers_for_order, true) }
 
